@@ -45,6 +45,11 @@ jobs:
       - name: Run
         run: |
           cd "$(find . -name listing_${{ github.event.inputs.listing }})"
-          ./run.sh ${{ env.GITHUB_USERNAME }} ${{ env.GITHUB_EMAIL }} 
-          
+          ./run.sh ${{ env.GITHUB_USERNAME }} ${{ env.GITHUB_EMAIL }}
 
+      - name: Archive generated artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: directory-after
+          path: |
+            "$(find . -name listing_${{ github.event.inputs.listing }})"
