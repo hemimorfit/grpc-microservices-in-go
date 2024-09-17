@@ -53,5 +53,6 @@ jobs:
       - name: Archive generated artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: directory-after
-          path: ${{ env.listing_path }}
+          name: generated-pb-files
+          path: |
+            ${{ env.listing_path }}/**/*.pb.go
