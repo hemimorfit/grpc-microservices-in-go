@@ -42,14 +42,16 @@ jobs:
           path: ${{ steps.go-cache-paths.outputs.go-build }}
           key: ${{ runner.os }}-go-build-${{ hashFiles('**/go.sum') }}
 
+      - name: Save listing path as env
+        run: echo "listing_path=$(find . -name listing_${{ github.event.inputs.listing }})" >> $GITHUB_ENV
+
       - name: Run
         run: |
-          cd "$(find . -name listing_${{ github.event.inputs.listing }})"
+          cd ${{ env.listing_path }}
           ./run.sh ${{ env.GITHUB_USERNAME }} ${{ env.GITHUB_EMAIL }}
 
       - name: Archive generated artifacts
         uses: actions/upload-artifact@v4
         with:
           name: directory-after
-          path: |
-            $(find . -name listing_${{ github.event.inputs.listing }})
+          path: ${{ env.listing_path }}
